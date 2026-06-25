@@ -110,8 +110,13 @@ exports.login =
 
             const user =
                 await User.findOne({
-                    email,
+
+                    email: email
+                        .trim()
+                        .toLowerCase(),
+
                 });
+
 
             if (!user) {
 
