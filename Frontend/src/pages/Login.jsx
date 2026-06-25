@@ -39,7 +39,7 @@ const handleLogin = async () => {
 try{
 
 const res =
-await axios.post(
+await loginUser(
 "https://erp-system-5cp9.onrender.com/api/auth/login",
 {
 email,
