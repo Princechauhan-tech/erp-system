@@ -1,7 +1,3 @@
-import {
-loginUser,
-} from "../api/api";
-
 import { useState } from "react";
 
 import {
@@ -14,11 +10,13 @@ Button,
 MenuItem,
 } from "@mui/material";
 
-import axios from "axios";
-
 import {
 useNavigate,
 } from "react-router-dom";
+
+import {
+loginUser,
+} from "../api/api";
 
 function Login() {
 
@@ -34,75 +32,98 @@ useState("");
 const [role,setRole] =
 useState("Admin");
 
-const handleLogin = async () => {
+const handleLogin =
+async()=>{
 
 try{
 
 const res =
-await loginUser(
-"https://erp-system-5cp9.onrender.com/api/auth/login",
-{
-email,
-password,
-role,
-}
-);
+await loginUser({
 
+email,
+
+password,
+
+role,
+
+});
 
 localStorage.setItem(
 "token",
 res.data.token
 );
 
-
 // REAL ROLE
+
 localStorage.setItem(
 "userRole",
 res.data.user.role
 );
 
-
 // CURRENT LOGIN ROLE
+
 localStorage.setItem(
 "loginRole",
-role
+res.data.user.role
 );
 
-
 localStorage.setItem(
+
 "user",
+
 JSON.stringify(
 res.data.user
 )
+
 );
 
 alert(
-`Login Success as ${role}`
+`Login Success as ${res.data.user.role}`
 );
 
+// REDIRECT
 
-// ROLE BASED REDIRECT
-
-switch(role){
+switch(
+res.data.user.role
+){
 
 case "Admin":
-navigate("/dashboard");
+
+navigate(
+"/dashboard"
+);
+
 break;
 
 case "HR":
-navigate("/employees");
+
+navigate(
+"/employees"
+);
+
 break;
 
 case "Employee":
-navigate("/attendance");
+
+navigate(
+"/attendance"
+);
+
 break;
 
 case "Project":
-navigate("/projects");
+
+navigate(
+"/projects"
+);
+
 break;
 
 default:
-navigate("/dashboard");
+
+navigate(
+"/dashboard"
+);
 
 }
 
@@ -110,10 +131,16 @@ navigate("/dashboard");
 
 catch(error){
 
+console.log(error);
+
 alert(
+
 error.response?.data?.message
+
 ||
+
 "Login Failed"
+
 );
 
 }
@@ -130,6 +157,7 @@ justifyContent:"center",
 alignItems:"center",
 background:"#0f172a",
 }}
+
 >
 
 <Card
@@ -137,6 +165,7 @@ sx={{
 width:450,
 borderRadius:4,
 }}
+
 >
 
 <CardContent>
@@ -145,10 +174,12 @@ borderRadius:4,
 variant="h4"
 align="center"
 mb={3}
->
-ERP Login
-</Typography>
 
+>
+
+ERP Login
+
+</Typography>
 
 <TextField
 select
@@ -160,7 +191,10 @@ setRole(
 e.target.value
 )
 }
-sx={{mb:2}}
+sx={{
+mb:2,
+}}
+
 >
 
 <MenuItem value="Admin">
@@ -181,7 +215,6 @@ Employee
 
 </TextField>
 
-
 <TextField
 fullWidth
 label="Email"
@@ -191,9 +224,10 @@ setEmail(
 e.target.value
 )
 }
-sx={{mb:2}}
+sx={{
+mb:2,
+}}
 />
-
 
 <TextField
 fullWidth
@@ -205,9 +239,10 @@ setPassword(
 e.target.value
 )
 }
-sx={{mb:3}}
+sx={{
+mb:3,
+}}
 />
-
 
 <Button
 fullWidth
@@ -215,6 +250,7 @@ variant="contained"
 onClick={
 handleLogin
 }
+
 >
 
 LOGIN
