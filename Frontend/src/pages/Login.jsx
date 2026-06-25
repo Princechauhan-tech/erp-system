@@ -1,3 +1,7 @@
+import {
+loginUser,
+} from "../api/api";
+
 import { useState } from "react";
 
 import {
@@ -36,7 +40,7 @@ try{
 
 const res =
 await axios.post(
-"http://localhost:5000/api/auth/login",
+"https://erp-system-5cp9.onrender.com/api/auth/login",
 {
 email,
 password,
